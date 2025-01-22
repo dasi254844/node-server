@@ -7,7 +7,7 @@ orderRoute.get("", getAllOrders);
 
 orderRoute.get("/:id", getOrderById);
 
-orderRoute.get("target_date/:date", getAllOrdersInDate);
+orderRoute.get("/target_date/:date", getAllOrdersInDate);
 
 orderRoute.get("user/:id", getOrdersFromUserById);
 
@@ -17,7 +17,7 @@ orderRoute.post("", addOrder);
 
 orderRoute.put("/:id", updateOrder);
 
-orderRoute.put("sending/:id", sendingOrderUpdate);
+orderRoute.put("/sending/:id", sendingOrderUpdate);
 
 
 export default orderRoute;
