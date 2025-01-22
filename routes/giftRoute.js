@@ -7,7 +7,7 @@ giftRoute.get("", getAllGifts)
 
 giftRoute.get("/:id", getGiftById)
 
-giftRoute.get("Out_of_stock", getAllGiftOutOfStock)
+giftRoute.get("/Out_of_stock", getAllGiftOutOfStock)
 
 giftRoute.delete("/:id", deleteGiftById)
 
