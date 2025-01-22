@@ -7,12 +7,12 @@ userRoute.get("", getAllUsers)
 
 userRoute.get("/:id", getUserByID)
 
-userRoute.get("login", getUserByLogin)
+userRoute.get("/login", getUserByLogin)
 
 userRoute.post("", addUserSignUp)
 
 userRoute.put("/:id", updateUser)
 
-userRoute.put("password/:id", updatePassword)
+userRoute.put("/password/:id", updatePassword)
 
 export default userRoute;
