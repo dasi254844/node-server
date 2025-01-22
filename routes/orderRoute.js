@@ -1,22 +1,23 @@
-import {Router} from "express"
-import { getAllOrders, getOrderById ,getAllOrdersInDate, getOrdersFromUserById ,deleteOrder,addOrder,updateOrder, sendingOrderUpdate} from "../controllers/orderController.js"
+import { Router } from "express"
+import { getAllOrders, getOrderById, getAllOrdersInDate, getOrdersFromUserById, deleteOrder, addOrder, updateOrder, sendingOrderUpdate } from "../controllers/orderController.js"
 
 const orderRoute = Router();
 
-orderRoute.get("/api",getAllOrders);
+orderRoute.get("", getAllOrders);
 
-orderRoute.get("/api/:id",getOrderById);
+orderRoute.get("/:id", getOrderById);
 
-orderRoute.get("/api-target_date/:date",getAllOrdersInDate);
+orderRoute.get("target_date/:date", getAllOrdersInDate);
 
-orderRoute.get("/api-user/:id",getOrdersFromUserById);
+orderRoute.get("user/:id", getOrdersFromUserById);
 
-orderRoute.delete("/api/:id",deleteOrder);
+orderRoute.delete("/:id", deleteOrder);
 
-orderRoute.post("/api",addOrder);
+orderRoute.post("", addOrder);
 
-orderRoute.put("/api/:id",updateOrder);
+orderRoute.put("/:id", updateOrder);
 
-orderRoute.put("/api-sending/:id",sendingOrderUpdate);
+orderRoute.put("sending/:id", sendingOrderUpdate);
+
 
 export default orderRoute;
