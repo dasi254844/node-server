@@ -49,20 +49,12 @@ export const deleteOrder = async (req, res) => {
     if ((new Date() - order.date_order) / (1000 * 60 * 60 * 24) > 5)
         return res.status(400).json({ title: "cannot delete order", message: "5 business days have already passed" })
 
-    let data = ORDERS.findByIdAndDelete(id);
+    let data = await ORDERS.findByIdAndDelete(id);
     try {
-        //עדכון מלאי המוצר לכמות המוצר בהזמנה 
-        let giftUpdate = await GIFTS.findByIdAndUpdate(body.id_user, { quantity_in_stock: gift.quantity_in_stock + order.quantity},{new:true} )
-    try{
-        console.log(giftUpdate)
-    }
-    catch(err){
-        return res.status(400).json({ title: "error in update the quantity", message:err.message })
-    }
         res.json(data);
     }
     catch (err) {
-        return res.status(400).json({ title: "cannot get by id", message: err.message })
+        return res.status(400).json({ title: "cannot delete by id", message: err.message })
     }
 }
 
@@ -71,7 +63,7 @@ export const addOrder = async (req, res) => {
     let body = req.body;
     //בדיקות תקינות:
     //required האם נשלחו כל המאפיינים שהם 
-    if (!body.id_user || !body.products.name || !body.products.id_gift_in_GIFTS || !body.quantity)
+    if (!body.id_user ||!body.products|| !body.products.name || !body.products.id_gift_in_GIFTS || !body.quantity)
         return res.status(400).json({ title: "missing parameters", message: "Not all required parameters were received" })
     //שליפת המשתמש לצורך בדיקות תקינות
     let user = await USERS.findById(body.id_user)
@@ -153,7 +145,7 @@ export const sendingOrderUpdate = async (req, res) => {
 
 //עדכון הזמנה
 export const updateOrder = async (req, res) => {
-    let { id } = req.params;
+    let { id } = req.params;ככ
     let body = req.body;
     //לא ניתן לעדכן פרטים אלו - בדיקה אם הם כן נשלחו
     if (body.id_user || body.products || body.price_sending || body.quantity || body.is_sending || body.date_order)
