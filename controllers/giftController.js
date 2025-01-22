@@ -9,7 +9,7 @@ export const getAllGifts = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        return res.status(err.status).json({ title: "cannot get all", message: err.message });
+        return res.status(400).json({ title: "cannot get all", message: err.message });
     }
 }
 
@@ -23,7 +23,7 @@ export const getGiftById = async (req, res) => {
         res.json(data)
     }
     catch (err) {
-        return res.status(err.status).json({ title: "cannot get by id", message: err.message });
+        return res.status(400).json({ title: "cannot get by id", message: err.message });
     }
 }
 
@@ -37,7 +37,7 @@ export const deleteGiftById = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        return res.status(err.status).json({ title: "cannot delete by id", message: err.message });
+        return res.status(400).json({ title: "cannot delete by id", message: err.message });
     }
 }
 export const addGift = async (req, res) => {
@@ -59,22 +59,22 @@ export const addGift = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        res.status(err.status).json({ title: "error in add new gift", message: err.message });
+        res.status(400).json({ title: "error in add new gift", message: err.message });
     }
 }
 
 //עדכון פרטי מוצר
 export const updateGift = async (req, res) => {
     let { id } = req.params;
-    let  body  = req.body;
+    let body = req.body;
     let data = await GIFTS.findByIdAndUpdate(id, body, { new: true });
     try {
         if (!data)
-            return res.status(404).json({ title: "error cannot get byId to update", message: "id is not exist"});
+            return res.status(404).json({ title: "error cannot get byId to update", message: "id is not exist" });
         res.json(data);
     }
     catch (err) {
-        res.status(err.status).json({ title: "error in update", message: err.message });
+        res.status(400).json({ title: "error in update", message: err.message });
     }
 }
 
@@ -85,42 +85,28 @@ export const getAllGiftOutOfStock = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        res.status(err.status).json({ title: "error in get all gifts that out of stock", message: err.message });
+        res.status(400).json({ title: "error in get all gifts that out of stock", message: err.message });
     }
 }
 
-//עדכון מלאי
-export const updateQuantityInStock = async (req, res) => {
-    let { id, number } = req.params;
+// //עדכון מלאי
+// export const updateQuantityInStock = async (req, res) => {
+//     let { id, number } = req.params;
 
-    let gift = getGiftById(id)
-    //בדיקה אם המוצר קיים
-    if (!gift) {
-        return res.status(404).json({ title: "error cannot get byId to update", message: "id undefind" });
-    }
-    //בדיקה אם הכמות שנשלחה לא תקינה
-    if (gift.quantity_in_stock + number < 0)
-        return res.status(400).json({ title: "cannot upate quantity", message: "The number is greater than the quantity" })
-    let data = await GIFTS.findByIdAndUpdate(id, { quantity_in_stock: quantity_in_stock + number }, { new: true });
-    try {
-        res.json(data);
-    }
-    catch (err) {
-        res.status(err.status).json({ title: "error in update", message: err.message });
-    }
-}
-
-//קבלת מוצרים ע"פ תנאי מסוים
-export const getAllGiftsIsInCondition = async (req, res) => {
-    let {condition} = req.params;
-    if (!/^(quantity_in_stock|the_gift_collection|is_add_text|image_url|description|price|name):.*/.test(condition)) {
-        return res.status(400).json({ title: "Incorrect condition", message: "The condition is unclear" });}
-    let data = await GIFTS.find({price:price<100});
-    try {
-        res.json(data);
-    }
-    catch (err) {
-        return res.status(err.status).json({ title: "cannot get whis this condition", message: err.message });
-    }
-}
+//     let gift = getGiftById(id)
+//     //בדיקה אם המוצר קיים
+//     if (!gift) {
+//         return res.status(404).json({ title: "error cannot get byId to update", message: "id undefind" });
+//     }
+//     //בדיקה אם הכמות שנשלחה לא תקינה
+//     if (gift.quantity_in_stock + number < 0)
+//         return res.status(400).json({ title: "cannot upate quantity", message: "The number is greater than the quantity" })
+//     let data = await GIFTS.findByIdAndUpdate(id, { quantity_in_stock: gift.quantity_in_stock + number }, { new: true });
+//     try {
+//         res.json(data);
+//     }
+//     catch (err) {
+//         res.status(400).json({ title: "error in update", message: err.message });
+//     }
+// }
 
