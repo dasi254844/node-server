@@ -9,7 +9,7 @@ export const getAllUsers = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        res.status(err.status).json({ title: "cannot get all", message: err.message });
+        res.status(400).json({ title: "cannot get all", message: err.message });
     }
 }
 
@@ -25,7 +25,7 @@ export const getUserByID = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        res.status(err.status).json({ title: "cannot get by id", message: err.message });
+        res.status(400).json({ title: "cannot get by id", message: err.message });
     }
 }
 
@@ -35,9 +35,11 @@ export const addUserSignUp = async (req, res) => {
     //required האם נשלחו כל המאפיינים שהם 
     if (!body.userName || !body.password || !body.email)
         return res.status(400).json({ title: "missing parameters", message: "not all necessary parameters were sent" })
+    //בדיקה אם המייל תקין
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (body.email && !emailRegex.test(body.email))
         return res.status(404).json({ title: "Email not strong", message: "Email not good" });
+    //בדיקה אם הסיסמה תקינה
     const pasRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;;
     if (body.password && !pasRegex.test(body.password))
         return res.status(404).json({ title: "Password not strong", message: "Password should consist of upper and lower case symbols and at least 8 characters" });
@@ -48,7 +50,7 @@ export const addUserSignUp = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        res.status(err.status).json({ title: "error in add new user", message: err.message });
+        res.status(400).json({ title: "error in add new user", message: err.message });
     }
 }
 
@@ -59,6 +61,7 @@ export const updateUser = async (req, res) => {
     //לא ניתן לעדכן סיסמה
     if (body.password)
         delete body.password;
+    //אם נשלח מייל בדיקה אם הוא תקין
     const emailRegex = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
     if (body.email && !emailRegex.test(body.email))
         return res.status(404).json({ title: "Email not strong", message: "Email not good" });
@@ -69,7 +72,7 @@ export const updateUser = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        res.status(err.status).json({ title: "error in update", message: err.message });
+        res.status(400).json({ title: "error in update", message: err.message });
     }
 }
 
@@ -92,7 +95,7 @@ export const updatePassword = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        res.status(err.status).json({ title: "error in update password", message: err.message });
+        res.status(400).json({ title: "error in update password", message: err.message });
     }
 }
 
