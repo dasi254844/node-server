@@ -5,13 +5,13 @@ const userRoute = Router()
 
 userRoute.get("", getAllUsers)
 
-userRoute.get(":id", getUserByID)
+userRoute.get("/:id", getUserByID)
 
 userRoute.get("login", getUserByLogin)
 
 userRoute.post("", addUserSignUp)
 
-userRoute.put(":id", updateUser)
+userRoute.put("/:id", updateUser)
 
 userRoute.put("password/:id", updatePassword)
 
