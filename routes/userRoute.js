@@ -1,18 +1,18 @@
-import {Router} from "express"
-import {addUserSignUp, getAllUsers, getUserByID, getUserByLogin, updatePassword, updateUser} from "../controllers/userController.js"
+import { Router } from "express"
+import { addUserSignUp, getAllUsers, getUserByID, getUserByLogin, updatePassword, updateUser } from "../controllers/userController.js"
 
 const userRoute = Router()
 
-userRoute.get("/api",getAllUsers)
+userRoute.get("", getAllUsers)
 
-userRoute.get("/api/:id", getUserByID)
+userRoute.get(":id", getUserByID)
 
-userRoute.get("/api-login",getUserByLogin)
+userRoute.get("login", getUserByLogin)
 
-userRoute.post("/api",addUserSignUp)
+userRoute.post("", addUserSignUp)
 
-userRoute.put("/api/:id", updateUser)
+userRoute.put(":id", updateUser)
 
-userRoute.put("/api-password/:id",updatePassword)
+userRoute.put("password/:id", updatePassword)
 
 export default userRoute;
