@@ -2,7 +2,9 @@ import GIFTS from "../models/giftModel.js";
 
 //קבלת כל המוצרים
 export const getAllGifts = async (req, res) => {
-    let data = await GIFTS.find();
+    let limit = req.query.limit;
+    let page = req.query.page;
+    let data = await GIFTS.find().skip();
     try {
         if (!data)
             return res.status(404).json({ title: "cannot get all", message: "not found gifts" });
