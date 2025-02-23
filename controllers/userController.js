@@ -2,7 +2,9 @@ import Users from "../models/userModel.js";
 
 //קבלת כל המשתמשים
 export const getAllUsers = async (req, res) => {
-    let data = await Users.find()
+    let limit = req.query.limit || 20;
+    let page = req.query.page || 1;
+    let data = await Users.find().skip((page - 1) * limit).limit(limit).select('-password');
     try {
         if (!data)
             return res.status(404).json({ title: "cannot get all", message: "there are no users" });
@@ -16,7 +18,7 @@ export const getAllUsers = async (req, res) => {
 //id קבלת משתמש לפי 
 export const getUserByID = async (req, res) => {
     let { id } = req.params;
-    let data = await Users.findById(id)
+    let data = await Users.findById(id).select('-password');
     try {
         if (!data)
             return res.status(404).json({ title: "cannot get byId", message: "id is not exists" });
@@ -45,8 +47,9 @@ export const addUserSignUp = async (req, res) => {
         return res.status(404).json({ title: "Password not strong", message: "Password should consist of upper and lower case symbols and at least 8 characters" });
     //הוספת המשתמש החדש
     let newUser = new Users(req.body);
-    let data = await newUser.save();
+    let data = await newUser.save()
     try {
+        data.password = undefined; 
         res.json(data);
     }
     catch (err) {
@@ -60,7 +63,7 @@ export const updateUser = async (req, res) => {
     let body = req.body;
     //לא ניתן לעדכן סיסמה
     if (body.password)
-        delete body.password;
+        body.password = undefined;
     //אם נשלח מייל בדיקה אם הוא תקין
     const emailRegex = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
     if (body.email && !emailRegex.test(body.email))
@@ -69,6 +72,7 @@ export const updateUser = async (req, res) => {
     try {
         if (!data)
             return res.status(404).json({ title: "error cannot get byId to update", message: "id not defind" });
+        data.password = undefined;
         res.json(data);
     }
     catch (err) {
@@ -92,6 +96,7 @@ export const updatePassword = async (req, res) => {
     try {
         if (!data)
             return res.status(404).json({ title: "error cannot get byId to update", message: "id not defind" });
+        data.password = undefined;
         res.json(data);
     }
     catch (err) {
@@ -110,6 +115,7 @@ export const getUserByLogin = async (req, res) => {
     try {
         if (!data)
             res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
+        data.password = undefined;
         res.json(data);
     }
     catch (err) {

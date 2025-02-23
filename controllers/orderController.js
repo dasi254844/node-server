@@ -4,7 +4,9 @@ import GIFTS from "../models/giftModel.js";
 
 //קבלת כל ההזמנות
 export const getAllOrders = async (req, res) => {
-    let data = await ORDERS.find();
+    let limit = req.query.limit || 20;
+    let page = req.query.page || 1;
+    let data = await ORDERS.find().skip((page - 1) * limit).limit(limit);
     try {
         if (!data)
             return res.status(404).json({ title: "cannot get all", message: "There are no products yet" })
@@ -117,8 +119,10 @@ export const addOrder = async (req, res) => {
 
 //id קבלת כל ההזמנות של משתמש מסוים לפי 
 export const getOrdersFromUserById = async (req, res) => {
+    let limit = req.query.limit || 20;
+    let page = req.query.page || 1;
     let { id } = req.params;
-    let data = await ORDERS.find({ id_user: id });
+    let data = await ORDERS.find({ id_user: id }).skip((page - 1) * limit).limit(limit);
     try {
         if (!data)
             return res.status(400).json({ title: "cannot get order from this user", message: "this user is not exist in GIFTS" })
@@ -145,7 +149,7 @@ export const sendingOrderUpdate = async (req, res) => {
 
 //עדכון הזמנה
 export const updateOrder = async (req, res) => {
-    let { id } = req.params;ככ
+    let { id } = req.params;
     let body = req.body;
     //לא ניתן לעדכן פרטים אלו - בדיקה אם הם כן נשלחו
     if (body.id_user || body.products || body.price_sending || body.quantity || body.is_sending || body.date_order)
@@ -164,11 +168,13 @@ export const updateOrder = async (req, res) => {
 
 //קבלת כל ההזמנות שאמורות להשלח בתאריך מסוים
 export const getAllOrdersInDate = async (req, res) => {
+    let limit = req.query.limit || 20;
+    let page = req.query.page || 1;
     let { date } = req.params;
     //Date בדיקה האם התאריך שהתקבל בפורמט 
     if (!date instanceof Date)
         return res.status(400).json({ title: "Incorrect date", message: "The date should be in Date format" })
-    let data = await ORDERS.find({ target_date: date })
+    let data = await ORDERS.find({ target_date: date }).skip((page - 1) * limit).limit(limit);
     try {
         res.json(data);
     }
