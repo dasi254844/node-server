@@ -1,3 +1,4 @@
+import giftModel from "../models/giftModel.js";
 import GIFTS from "../models/giftModel.js";
 
 //קבלת כל המוצרים
@@ -90,6 +91,23 @@ export const getAllGiftOutOfStock = async (req, res) => {
     }
     catch (err) {
         res.status(400).json({ title: "error in get all gifts that out of stock", message: err.message });
+    }
+}
+
+//קבלת כמות העמודים
+export async function getTotalGiftPages(req, res){
+    let limit = req.query.limit || 20;
+    try{
+        let data = await giftModel.countDocuments();
+        res.json({
+            totalCount: data,
+            totalPages: Math.ceil(data / limit),
+            limit: limit
+        }
+        );
+        }
+        catch(err){
+            res.status(400).json({title:"שגיאה בהבאת כמות העמודים", message:err.message});
     }
 }
 

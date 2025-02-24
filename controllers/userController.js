@@ -1,3 +1,4 @@
+import userModel from "../models/userModel.js";
 import Users from "../models/userModel.js";
 
 //קבלת כל המשתמשים
@@ -120,5 +121,22 @@ export const getUserByLogin = async (req, res) => {
     }
     catch (err) {
         res.status(400).json({ title: "error in get by login", message: err.message });
+    }
+}
+
+//קבלת כמות העמודים
+export async function getTotalUserPages(req, res){
+    let limit = req.query.limit || 20;
+    try{
+        let data = await userModel.countDocuments();
+        res.json({
+            totalCount: data,
+            totalPages: Math.ceil(data / limit),
+            limit: limit
+        }
+        );
+        }
+        catch(err){
+            res.status(400).json({title:"שגיאה בהבאת כמות העמודים", message:err.message});
     }
 }

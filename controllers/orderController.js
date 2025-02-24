@@ -1,6 +1,7 @@
 import ORDERS from "../models/orderModel.js";
 import USERS from "../models/userModel.js";
 import GIFTS from "../models/giftModel.js";
+import orderModel from "../models/orderModel.js";
 
 //קבלת כל ההזמנות
 export const getAllOrders = async (req, res) => {
@@ -180,6 +181,23 @@ export const getAllOrdersInDate = async (req, res) => {
     }
     catch (err) {
         return res.status(400).json({ title: "cannot get orders in this date", message: err.message })
+    }
+}
+
+//קבלת כמות העמודים
+export async function getTotalOrderPages(req, res){
+    let limit = req.query.limit || 20;
+    try{
+        let data = await orderModel.countDocuments();
+        res.json({
+            totalCount: data,
+            totalPages: Math.ceil(data / limit),
+            limit: limit
+        }
+        );
+        }
+        catch(err){
+            res.status(400).json({title:"שגיאה בהבאת כמות העמודים", message:err.message});
     }
 }
 
