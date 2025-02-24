@@ -46,6 +46,15 @@ export const addUserSignUp = async (req, res) => {
     const pasRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;;
     if (body.password && !pasRegex.test(body.password))
         return res.status(404).json({ title: "Password not strong", message: "Password should consist of upper and lower case symbols and at least 8 characters" });
+    //בדיקה אם המשתמש קיים 
+    let is_user = await USERS.find({email: body.email})
+    try {
+        if (is_user)
+            return res.status(400).json({ title: "cannot add user", message: "email is exist" })
+    }
+    catch (err) {
+        return res.status(400).json({ title: "error in check the user", message: err.message })
+    }
     //הוספת המשתמש החדש
     let newUser = new Users(req.body);
     let data = await newUser.save()
