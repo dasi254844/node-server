@@ -1,1 +1,1 @@
-(https://node-server/main/server.html)
+[https://node-server/main/server.html] - טבלת הסבר על השרת
