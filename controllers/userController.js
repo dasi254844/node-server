@@ -1,4 +1,4 @@
-import userModel from "../models/userModel.js";
+
 import Users from "../models/userModel.js";
 
 //קבלת כל המשתמשים
@@ -47,7 +47,7 @@ export const addUserSignUp = async (req, res) => {
     if (body.password && !pasRegex.test(body.password))
         return res.status(404).json({ title: "Password not strong", message: "Password should consist of upper and lower case symbols and at least 8 characters" });
     //בדיקה אם המשתמש קיים 
-    let is_user = await Users.find({email: body.email})
+    let is_user = await Users.findOne({email: body.email})
     try {
         if (is_user)
             return res.status(400).json({ title: "cannot add user", message: "email is exist" })
