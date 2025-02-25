@@ -7,9 +7,9 @@ userRoute.get("",getAllUsers)
 
 userRoute.get("/numPages", getTotalUserPages)
 
-userRoute.get("/:id", getUserByID)
-
 userRoute.post("/login",getUserByLogin)
+
+userRoute.get("/:id", getUserByID)
 
 userRoute.post("",addUserSignUp)
 

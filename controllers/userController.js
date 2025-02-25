@@ -47,7 +47,7 @@ export const addUserSignUp = async (req, res) => {
     if (body.password && !pasRegex.test(body.password))
         return res.status(404).json({ title: "Password not strong", message: "Password should consist of upper and lower case symbols and at least 8 characters" });
     //בדיקה אם המשתמש קיים 
-    let is_user = await Users.findOne({email: body.email})
+    let is_user = await Users.findOne({ email: body.email })
     try {
         if (is_user)
             return res.status(400).json({ title: "cannot add user", message: "email is exist" })
@@ -59,7 +59,7 @@ export const addUserSignUp = async (req, res) => {
     let newUser = new Users(req.body);
     let data = await newUser.save()
     try {
-        data.password = undefined; 
+        data.password = undefined;
         res.json(data);
     }
     catch (err) {
@@ -134,9 +134,9 @@ export const getUserByLogin = async (req, res) => {
 }
 
 //קבלת כמות העמודים
-export async function getTotalUserPages(req, res){
+export async function getTotalUserPages(req, res) {
     let limit = req.query.limit || 20;
-    try{
+    try {
         let data = await Users.countDocuments();
         res.json({
             totalCount: data,
@@ -144,8 +144,8 @@ export async function getTotalUserPages(req, res){
             limit: limit
         }
         );
-        }
-        catch(err){
-            res.status(400).json({title:"שגיאה בהבאת כמות העמודים", message:err.message});
+    }
+    catch (err) {
+        res.status(400).json({ title: "שגיאה בהבאת כמות העמודים", message: err.message });
     }
 }
