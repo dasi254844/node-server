@@ -125,7 +125,7 @@ export const getUserByLogin = async (req, res) => {
     try {
         if (!data)
             return res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
-        data.password = undefined;
+        // data.password = undefined;
         res.json(data);
     }
     catch (err) {
