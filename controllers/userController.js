@@ -116,20 +116,20 @@ export const updatePassword = async (req, res) => {
 
 //קבלת משתמש לפי שם משתמש וסיסמה
 export const getUserByLogin = async (req, res) => {
-    let { userName, password } = req.body;
-    //אם לא התקבל סיסמה או שם משתמש
-    if (!userName || !password)
-        res.status(400).json({ title: "error in get by login", message: "missing details" });
+    let { email, password } = req.body;
+    //אם לא התקבל סיסמא או מייל
+    if (!email || !password)
+        return res.status(400).json({ title: "error in get by login", message: "missing details" });
 
-    let data = await Users.findOne({ userName: userName, password: password });
+    let data = await Users.findOne({ email: email, password: password });
     try {
         if (!data)
-            res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
+            return res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
         data.password = undefined;
         res.json(data);
     }
     catch (err) {
-        res.status(400).json({ title: "error in get by login", message: err.message });
+        return res.status(400).json({ title: "error in get by login", message: err.message });
     }
 }
 
