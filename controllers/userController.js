@@ -121,7 +121,7 @@ export const getUserByLogin = async (req, res) => {
     if (!email || !password)
         return res.status(400).json({ title: "error in get by login", message: "missing details" });
 
-    let data = await Users.findOne({ email: email, password: password });
+    let data = await Users.findOne({ password: password, email: email });
     try {
         if (!data)
             return res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
