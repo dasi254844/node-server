@@ -1,4 +1,3 @@
-import giftModel from "../models/giftModel.js";
 import GIFTS from "../models/giftModel.js";
 
 //קבלת כל המוצרים
@@ -98,7 +97,7 @@ export const getAllGiftOutOfStock = async (req, res) => {
 export async function getTotalGiftPages(req, res){
     let limit = req.query.limit || 20;
     try{
-        let data = await giftModel.countDocuments();
+        let data = await GIFTS.countDocuments();
         res.json({
             totalCount: data,
             totalPages: Math.ceil(data / limit),

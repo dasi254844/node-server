@@ -120,12 +120,11 @@ export const getUserByLogin = async (req, res) => {
     //אם לא התקבל סיסמא או מייל
     if (!email || !password)
         return res.status(400).json({ title: "error in get by login", message: "missing details" });
-
-    let data = await Users.findOne({ password: password, email: email });
     try {
+        let data = await Users.findOne({ password: password, email: email });
         if (!data)
             return res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
-        // data.password = undefined;
+        data.password = undefined;
         res.json(data);
     }
     catch (err) {
