@@ -7,7 +7,8 @@ const minimalGIFTSchema = Schema({
     price: Number,
     text: String,
     id_gift_in_GIFTS: { type: Schema.Types.ObjectId, ref: GIFTS, required: true },
-    formatText: { type: String, enum: ['format1', 'format2', 'format3'] }
+    formatText: { type: String, enum: ['format1', 'format2', 'format3'] },
+    quantity: { type: Number, required: true }
 })
 
 const orderSchema = Schema({
@@ -22,11 +23,10 @@ const orderSchema = Schema({
             return today;
         }
     },
-    address_target: { type: String, pattern: /^[א-ת]{2,},\s*[א-ת\s]+ \d+(\/\d+)?$/ },
+    address_target: { city:{type: String, required: true}, street: {type: String, required: true}, street_number: {type: Number, required: true}, apartment_number: {type: Number}},
     is_received: { type: Boolean, default: false },
     price_sending: { type: Number, default: 0 },
     Greeting: { text: String, background_page: { type: String, enum: [1, 2, 3, 4, 5] } },
-    quantity: { type: Number, required: true }
 })
 orderSchema.virtual('final_price').get(function () {
     return this.price_sending + this.products.price;
