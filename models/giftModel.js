@@ -6,8 +6,10 @@ const giftSchema = Schema({
     description: { type: String },
     image_url: { type: String },
     is_add_text: { type: Boolean, default: false },
-    the_gift_collection: { type: [String], required: true },
-    quantity_in_stock: { type: Number, required: true }
+    category: {type:String, enum:['Gift','Baby_strollers', 'Futiure', 'Clothing_and_textiles', 'Toys', 'Baby_accessories']},
+    quantity_in_stock: { type: Number, required: true },
+    colors: {type: [String]},
+    size: {type: [String]}
 })
 
 const giftModel = model("gift box", giftSchema);
