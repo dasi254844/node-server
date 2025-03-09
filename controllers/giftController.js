@@ -46,7 +46,7 @@ export const addGift = async (req, res) => {
     let body = req.body;
     //בדיקות תקינות:
     //required האם נשלחו כל המאפיינים שהם 
-    if (!body.name || !body.price || !body.the_gift_collection || !body.quantity_in_stock)
+    if (!body.name || !body.price || !body.quantity_in_stock)
         return res.status(400).json({ title: "missing parameters", message: "not all necessary parameters were sent" });
     //האם המחיר של המוצר תקין
     if (body.price < 1)
