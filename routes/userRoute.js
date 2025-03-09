@@ -1,5 +1,6 @@
 import {Router} from "express"
 import {addUserSignUp, getAllUsers, getUserByID, getUserByLogin, updatePassword, updateUser, getTotalUserPages} from "../controllers/userController.js"
+import { checkUser } from "../middleware/check.js"
 
 const userRoute = Router()
 
@@ -13,9 +14,9 @@ userRoute.get("/:id", getUserByID)
 
 userRoute.post("",addUserSignUp)
 
-userRoute.put("/update_password/:id",updatePassword)
+userRoute.put("/update_password/:id",checkUser,updatePassword)
 
-userRoute.put("/:id", updateUser)
+userRoute.put("/:id",checkUser, updateUser)
 
 
 export default userRoute;
