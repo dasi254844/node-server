@@ -1,10 +1,10 @@
 import {Router} from "express"
 import {addUserSignUp, getAllUsers, getUserByID, getUserByLogin, updatePassword, updateUser, getTotalUserPages} from "../controllers/userController.js"
-import { checkUser } from "../middleware/check.js"
+import { checkUser, checkManeger } from "../middleware/check.js"
 
 const userRoute = Router()
 
-userRoute.get("",getAllUsers)
+userRoute.get("", checkManeger,getAllUsers)
 
 userRoute.get("/numPages", getTotalUserPages)
 

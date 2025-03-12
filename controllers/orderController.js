@@ -135,7 +135,7 @@ export const getOrdersFromUserById = async (req, res) => {
 }
 
 //עדכון מוצר שיצא לדרך
-export const sendingOrderUpdate = async (req, res) => {
+export const UpdateOrderIsSending = async (req, res) => {
     let { id } = req.params;
     let data = await ORDERS.findByIdAndUpdate(id, { is_sending: true }, { new: true });
     try {

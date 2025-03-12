@@ -1,4 +1,5 @@
 
+import { generateToken } from "../Utils/generateToken.js";
 import Users from "../models/userModel.js";
 
 //קבלת כל המשתמשים
@@ -60,6 +61,7 @@ export const addUserSignUp = async (req, res) => {
     let data = await newUser.save()
     try {
         data.password = undefined;
+        data.token = generateToken(data)
         res.json(data);
     }
     catch (err) {
@@ -125,6 +127,7 @@ export const getUserByLogin = async (req, res) => {
         if (!data)
             return res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
         data.password = undefined;
+        data.token = generateToken(data);
         res.json(data);
     }
     catch (err) {
