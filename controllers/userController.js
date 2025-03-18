@@ -124,8 +124,8 @@ export const getUserByLogin = async (req, res) => {
         return res.status(400).json({ title: "error in get by login", message: "missing details" });
     try {
         let data = await Users.find({ password, email });
-        if (data.length == 0)
-            return res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
+        // if (data.length == 0)
+        //     return res.status(400).json({ title: "cannot get by login", message: "no user with such details" });
         data.password = undefined;
         data.token = generateToken(data);
         res.json(data);
