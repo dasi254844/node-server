@@ -131,7 +131,7 @@ export const getUserByLogin = async (req, res) => {
         res.json(data);
     }
     catch (err) {
-        return res.status(400).json({ title: "error in get by login", message: err.message });
+        return res.status(400).json({ title: "error in get by login", message: err.message+"kkk" });
     }
 }
 
